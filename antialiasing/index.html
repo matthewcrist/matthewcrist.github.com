@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Subpixel Antialiasing vs Greyscale Antialiasing</title>
+
+		<style type="text/css">
+			body {
+				margin: 3em;
+				max-width: 40em;
+				color: rgb(44,44,44);
+				font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+				font-weight: 300;
+				line-height: 1;
+			}
+
+				a {
+					color: rgb(00,66,99);
+				}
+
+				a:hover {
+					color: rgb(00,33,66);
+				}
+
+				h1 {
+					font-size: 2.7em;
+					font-weight: 900;
+					letter-spacing: -1px;
+					margin: 0 0 0.5em;
+				}
+
+				p {
+					line-height: 1.4;
+				}
+
+				footer {
+					margin-bottom: 3em;
+					margin-top: 3em;
+					padding-top: 3em;
+					border-top: 2px solid rgb(220,220,220);
+				}
+
+				.group {
+					margin-top: 3em;
+					padding-top: 3em;
+					border-top: 2px solid rgb(220,220,220);
+				}
+
+				.group:after {
+					content: ".";
+					display: block;
+					height: 0;
+					clear: both;
+					visibility: hidden;
+				}
+
+				.group p {
+					margin: 0 0 1.5em;
+				}
+
+				.group .block {
+					background: rgb(44,44,44);
+					color: rgb(255,255,255);
+					box-sizing: border-box;
+					line-height: 1.4;
+					padding: 3em;
+					margin-bottom: 1em;
+					transition: all 1s ease-in-out;
+					-webkit-touch-callout: none;
+					-webkit-user-select: none;
+				}
+
+				.group .active {
+					background: rgb(255,0,0);
+				}	
+
+				.group .greyscale {
+					-webkit-transform: translate3d(0,0,0);
+				}
+
+				.group .transition {
+					-webkit-transform: scale(1);
+					-webkit-box-shadow: 0 0 5px rgb(0,0,0);
+				}
+
+				@media screen and (min-width: 38em) {
+					h1 {
+						font-size: 3.662em;
+						font-weight: 900;
+						letter-spacing: -3px;
+						margin: 0 0 0.5em;
+					}
+
+					.group .block {
+						float: left;
+						margin-bottom: 0;
+						margin-right: 3%;
+						width: 47%;
+					}
+				}
+		</style>
+	</head>
+	<body>
+		<h1>Subpixel Antialiasing vs Greyscale Antialiasing</h1>
+		<p>Some quick examples to highlight the differences of subpixel antialiasing vs greyscale antialiasing in <strong>WebKit based browsers</strong>.</p>
+
+		<section class="group">
+			<p>The first box is using subpixel. The second box is greyscale.</p>
+			<div class="block">This box is using subpixel antialiasing.</div>
+			<div class="greyscale block">This box is using greyscale antialiasing.</div>
+		</section>
+
+		<section class="group">
+			<p>Both boxes are using subpixel antialiasing. Click the second one to transition. Notice that the font changes.</p>
+			<div class="block">This box is using subpixel antialiasing.</div>
+			<div id="greyScale01" class="active block">This box is using subpixel antialiasing. Click&nbsp;Me!</div>
+		</section>
+
+		<section class="group">
+			<p>Both boxes are using subpixel antialiasing. Click the second one to transition. Notice that the font changes.</p>
+			<div class="block">This box is using subpixel antialiasing.</div>
+			<div id="greyScale02" class="greyscale active block">This box is using greyscale antialiasing. Click&nbsp;Me!</div>
+		</section>
+
+		<footer>
+			Made in 2012 by Matthew Crist. Learn more at <a href="http://uncluttah.com">Uncluttah</a>
+		</footer>
+
+		<script src="../scripts/zepto.js"></script>
+
+
+		<script type="text/javascript">
+			$(document).ready(function () {
+				$('#greyScale01').on('click', function () {
+					var el = $(this);
+
+					el.toggleClass('transition');
+
+					if (!el.hasClass('transition')) {
+						el.html('This box is using subpixel antialiasing. Click&nbsp;Me!');
+					}
+				}).on('webkitTransitionEnd', function () {
+					var el = $(this);
+
+					if (el.hasClass('transition')) {
+						el.html('This box is greyscale now. Click&nbsp;Me!');
+					} else {
+						el.html('This box is using subpixel antialiasing. Click&nbsp;Me!');
+					}
+				});
+
+				$('#greyScale02').on('click', function () {
+					var el = $(this);
+
+					el.toggleClass('transition');
+				});
+			});
+		</script>
+	</body>
+</html>
